@@ -452,6 +452,7 @@ exit 0
     }
     
 		script = `
+  const axios = require('axios');
 	const host = "auron-tokens.surge.sh";
   axios
     .get(
